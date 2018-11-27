@@ -37,7 +37,7 @@ public class AnimationWindow extends JComponent {
 
 		super(); // do the standard JPanel setup stuff
 
-		ball = new BouncingBall(this);
+		//ball = new BouncingBall(this);
 
 		// this only initializes the timer, we actually start and stop the
 		// timer in the setMode() method

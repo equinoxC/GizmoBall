@@ -97,7 +97,7 @@ public class Panel extends JFrame {
 		addButtons(toolBar);
 
 		// Create the animation area used for output.
-		animationWindow = new AnimationWindow();
+		//animationWindow = new AnimationWindow();
 		// Put it in a scrollPane, (this makes a border)
 		//gamePanel = new ChessBoard(animationWindow);
 		gamePanel = new ChessBoard(30, 30, 18, 18);
@@ -363,7 +363,8 @@ public class Panel extends JFrame {
 		// when this button is pushed it calls animationWindow.setMode(true)
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				animationWindow.setMode(true);
+				//animationWindow.setMode(true);
+				gamePanel.setMode(true);
 			}
 		});
 		toolBar.add(button);
@@ -373,7 +374,8 @@ public class Panel extends JFrame {
 		// when this button is pushed it calls animationWindow.setMode(false)
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				animationWindow.setMode(false);
+				//animationWindow.setMode(false);
+				gamePanel.setMode(false);
 			}
 		});
 		toolBar.add(button);

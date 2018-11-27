@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
+import panel.ChessBoard;
+
 public class BouncingBall {
 
 	private final static double VELOCITY_STEP = 2.0;
@@ -21,7 +23,7 @@ public class BouncingBall {
 	private Color color = new Color(255, 0, 0);
 
 	// Keep track of the animation window that will be drawing this ball.
-	private AnimationWindow win;
+	private ChessBoard win;
 
 	/**
 	 * Constructor.
@@ -29,7 +31,7 @@ public class BouncingBall {
 	 * @param win
 	 *            Animation window that will be drawing this ball.
 	 */
-	public BouncingBall(AnimationWindow win) {
+	public BouncingBall(ChessBoard win) {
 		this.win = win;
 	}
 
