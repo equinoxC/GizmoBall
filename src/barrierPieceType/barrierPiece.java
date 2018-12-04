@@ -2,6 +2,7 @@ package barrierPieceType;
 
 import javax.swing.*;
 
+import entity.Barrier;
 import layout.GamePane;
 
 import java.awt.*;

@@ -54,10 +54,22 @@ public class GamePane extends JScrollPane implements MouseListener, MouseMotionL
 
 	private boolean mode;
 
+	public Barrier[][] getPoint() {
+		return point;
+	}
+
+	public int getX_axis() {
+		return x_axis;
+	}
+
+	public int getY_axis() {
+		return y_axis;
+	}
+
 	public GamePane(int w, int h, int r, int c) {
 		super(); // do the standard JPanel setup stuff
 		
-		ball = new BouncingBall(this);
+		ball = BouncingBall.getInstanceByWin(this);
 
 		// this only initializes the timer, we actually start and stop the
 		// timer in the setMode() method
@@ -296,7 +308,7 @@ public class GamePane extends JScrollPane implements MouseListener, MouseMotionL
 	class AnimationEventListener extends MouseAdapter implements MouseMotionListener, KeyListener, ActionListener {
 
 		// MouseAdapter gives us empty methods for the MouseListener
-		// interface: mouseClicked, mouseEntered, mouseExited, mousePressed,
+		// GizmoBallInterface: mouseClicked, mouseEntered, mouseExited, mousePressed,
 		// and mouseReleased.
 
 		/**
@@ -313,7 +325,7 @@ public class GamePane extends JScrollPane implements MouseListener, MouseMotionL
 		}
 
 		/**
-		 * MouseMotionListener interface Override this method to act on mouse drag
+		 * MouseMotionListener GizmoBallInterface Override this method to act on mouse drag
 		 * events.
 		 * 
 		 * @param e
@@ -323,7 +335,7 @@ public class GamePane extends JScrollPane implements MouseListener, MouseMotionL
 		}
 
 		/**
-		 * MouseMotionListener interface Override this method to act on mouse move
+		 * MouseMotionListener GizmoBallInterface Override this method to act on mouse move
 		 * events.
 		 * 
 		 * @param e
@@ -333,7 +345,7 @@ public class GamePane extends JScrollPane implements MouseListener, MouseMotionL
 		}
 
 		/**
-		 * We implement the KeyListener interface so that we can bump the ball in a
+		 * We implement the KeyListener GizmoBallInterface so that we can bump the ball in a
 		 * random direction if keys A-J is presse.
 		 * 
 		 * @modifies the ball that this listener owns

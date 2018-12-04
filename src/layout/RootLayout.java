@@ -34,7 +34,6 @@ import barrierPieceType.barrierBlueTriangle2;
 import barrierPieceType.barrierBlueTriangle3;
 import barrierPieceType.barrierBlueTriangle4;
 import barrierPieceType.barrierPiece;
-import controller.AnimationWindow;
 
 /**
  * Overview: An ApplicationWindow is a top level program window that contains a
@@ -44,7 +43,6 @@ public class RootLayout extends JFrame {
 
 	private static final long serialVersionUID = 3257563992905298229L;
 
-	protected AnimationWindow animationWindow;
 	private JPanel buttonPanel;
 	private GamePane gamePanel;
 	JButton cb_green = null;
