@@ -1,5 +1,7 @@
+/barrierPieceType/
 /buttonIcon/
-/chessPieceType/
+/controller/
+/entity/
+/layout/
 /main/
-/panel/
-/test/
+/chessPieceType/
