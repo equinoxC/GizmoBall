@@ -1,8 +1,17 @@
 package entity;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "Barrier")
 public class BarrierWrapper {
+    @XmlElement(name = "x")
     public int x;
+
+    @XmlElement(name = "y")
     public int y;
+
+    @XmlElement(name = "name")
     public String name;
 
     public BarrierWrapper(int x, int y, String name) {
