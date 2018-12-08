@@ -8,12 +8,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 
-import javax.swing.Icon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JToolBar;
+import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import buttonIcon.AbsorbButtonIcon;
 import buttonIcon.BallButtonIcon;
@@ -34,6 +33,7 @@ import barrierPieceType.barrierBlueTriangle2;
 import barrierPieceType.barrierBlueTriangle3;
 import barrierPieceType.barrierBlueTriangle4;
 import barrierPieceType.barrierPiece;
+import controller.IOHandler;
 
 /**
  * Overview: An ApplicationWindow is a top level program window that contains a
@@ -45,6 +45,7 @@ public class RootLayout extends JFrame {
 
 	private JPanel buttonPanel;
 	private GamePane gamePanel;
+	private IOHandler ioHandler = new IOHandler();
 	JButton cb_green = null;
 	JButton sb_red = null;
 	JButton tb_blue = null;
@@ -74,7 +75,7 @@ public class RootLayout extends JFrame {
 	public RootLayout() {
 
 		// Title bar
-		super("Swing Demonstration Program");
+		super("GizmoBall Group 5");
 
 		// respond to the window system asking us to quit
 		addWindowListener(new WindowAdapter() {
@@ -386,7 +387,20 @@ public class RootLayout extends JFrame {
 		button.setToolTipText("Save the animation to local file system");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//
+				JFileChooser fd = new JFileChooser();
+				FileNameExtensionFilter filter = new FileNameExtensionFilter(
+						"可扩展标记文件(*.xml;)", "xml");
+				fd.setFileFilter(filter);
+				fd.showSaveDialog(null);
+				File f = fd.getSelectedFile();
+				if(f != null){
+					ioHandler.saveFile(f);
+				}else{
+					Object[] options = {"确定"};
+					JOptionPane.showOptionDialog(null, "无法保存文件", "Error",
+							JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE,
+							null, options, options[0]);
+				}
 			}
 		});
 		toolBar.add(button);
@@ -395,7 +409,20 @@ public class RootLayout extends JFrame {
 		button.setToolTipText("Load the animation from local file system");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//
+				JFileChooser fd = new JFileChooser();
+				FileNameExtensionFilter filter = new FileNameExtensionFilter(
+						"可扩展标记文件(*.xml;)", "xml");
+				fd.setFileFilter(filter);
+				fd.showOpenDialog(null);
+				File f = fd.getSelectedFile();
+				if(f != null){
+					ioHandler.loadFile(f);
+				}else{
+					Object[] options = {"确定"};
+					JOptionPane.showOptionDialog(null, "无法打开文件", "Error",
+							JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE,
+							null, options, options[0]);
+				}
 			}
 		});
 		toolBar.add(button);
