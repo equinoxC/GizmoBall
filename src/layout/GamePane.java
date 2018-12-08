@@ -25,7 +25,7 @@ import controller.DragRule;
 import java.awt.*;
 import java.awt.event.*;
 
-public class GamePane extends JScrollPane implements MouseListener, MouseMotionListener {
+public class GamePane extends JScrollPane implements MouseListener, MouseMotionListener, KeyListener {
 	public Barrier point[][];
 	public int unitWidth, unitHeight;
 	private int x_axis, y_axis;
@@ -80,10 +80,10 @@ public class GamePane extends JScrollPane implements MouseListener, MouseMotionL
 		timer = new Timer(1000 / FRAMES_PER_SECOND, eventListener);
 
 		mode = false;
-		//add(animationWindow);
 		setLayout(null);
 		addMouseListener(this);
 		addMouseMotionListener(this);
+		addKeyListener(this);
 		setFocusable(true);
 		Color bc = getBackground();
 		unitWidth = w;
@@ -100,17 +100,32 @@ public class GamePane extends JScrollPane implements MouseListener, MouseMotionL
 		}
 
 		dragRule = new DragRule(this, point);
-		// record = new MakeChessManual(this, point);
 	}
 	
 	public int getStartI() {
 		return startI;
 	}
 	
+	public void setStartI(int startI) {
+		this.startI = startI;
+	}
+	
 	public int getStartJ() {
 		return startJ;
 	}
 	
+	public void setStartJ(int startJ) {
+		this.startJ = startJ;
+	}
+	
+	public void setEndI(int endI) {
+		this.endI = endI;
+	}
+
+	public void setEndJ(int endJ) {
+		this.endJ = endJ;
+	}
+
 	public int getEndI() {
 		return endI;
 	}
@@ -131,85 +146,94 @@ public class GamePane extends JScrollPane implements MouseListener, MouseMotionL
 		return point[a][b].y;
 	}
 
-	public void createGreenCircle(String typeName) {
+	public Barrier createGreenCircle(String typeName, int x, int y) {
 		barrierPiece greenCircle = new barrierGreenCircle(typeName, Color.green, 30, 30, this);
-		point[3][5].setPiece(greenCircle, this);
+		point[x][y].setPiece(greenCircle, this);
+		return point[x][y];
 	}
-
-	public void createRedRectangular(String typeName) {
+	
+	public Barrier createRedRectangular(String typeName, int x, int y) {
 		barrierPiece redRectangular = new barrierRedRectangular(typeName, Color.red, 30, 30, this);
-		point[5][5].setPiece(redRectangular, this);
+		point[x][y].setPiece(redRectangular, this);
+		return point[x][y];
 	}
 	
-	public barrierPiece createBlueTriangle(String typeName) {
+	public Barrier createBlueTriangle(String typeName, int x, int y) {
 		barrierPiece blueTriangle = new barrierBlueTriangle(typeName, Color.blue, 30, 30, this);
-		point[7][5].setPiece(blueTriangle, this);
-		return blueTriangle;
+		point[x][y].setPiece(blueTriangle, this);
+		return point[x][y];
 	}
 	
-	public barrierPiece createBlueTriangle1(String typeName) {
-		barrierPiece blueTriangle = new barrierBlueTriangle(typeName, Color.blue, 30, 30, this);
-		return blueTriangle;
+	public Barrier createBlueTriangle2(String typeName, int x, int y) {
+		barrierPiece blueTriangle2 = new barrierBlueTriangle2(typeName, Color.blue, 30, 30, this);
+		point[x][y].setPiece(blueTriangle2, this);
+		return point[x][y];
 	}
 	
-	public barrierPiece createBlueTriangle2(String typeName) {
-		barrierPiece blueTriangle = new barrierBlueTriangle2(typeName, Color.blue, 30, 30, this);
-		return blueTriangle;
+	public Barrier createBlueTriangle3(String typeName, int x, int y) {
+		barrierPiece blueTriangle3 = new barrierBlueTriangle3(typeName, Color.blue, 30, 30, this);
+		point[x][y].setPiece(blueTriangle3, this);
+		return point[x][y];
 	}
 	
-	public barrierPiece createBlueTriangle3(String typeName) {
-		barrierPiece blueTriangle = new barrierBlueTriangle3(typeName, Color.blue, 30, 30, this);
-		return blueTriangle;
+	public Barrier createBlueTriangle4(String typeName, int x, int y) {
+		barrierPiece blueTriangle4 = new barrierBlueTriangle4(typeName, Color.blue, 30, 30, this);
+		point[x][y].setPiece(blueTriangle4, this);
+		return point[x][y];
 	}
 	
-	public barrierPiece createBlueTriangle4(String typeName) {
-		barrierPiece blueTriangle = new barrierBlueTriangle4(typeName, Color.blue, 30, 30, this);
-		return blueTriangle;
-	}
-	
-	public void createCyanCircle(String typeName) {
+	public Barrier createCyanCircle(String typeName, int x, int y) {
 		barrierPiece cyanCircle = new barrierCyanCircle(typeName, Color.cyan, 30, 30, this);
-		point[9][5].setPiece(cyanCircle, this);
+		point[x][y].setPiece(cyanCircle, this);
+		return point[x][y];
 	}
 	
-	public void createPinkCircle(String typeName) {
+	public Barrier createPinkCircle(String typeName, int x, int y) {
 		barrierPiece pinkCircle = new barrierPinkCircle(typeName, Color.pink, 30, 30, this);
-		point[11][5].setPiece(pinkCircle, this);
+		point[x][y].setPiece(pinkCircle, this);
+		return point[x][y];
 	}
 	
-	public void createBlackCircle(String typeName) {
+	public Barrier createBlackCircle(String typeName, int x, int y) {
 		barrierPiece blackCircle = new barrierBlackCircle(typeName, Color.black, 30, 30, this);
-		point[13][5].setPiece(blackCircle, this);
+		point[x][y].setPiece(blackCircle, this);
+		return point[x][y];
 	}
 	
-	public void createGrayCircle(String typeName) {
+	public Barrier createGrayCircle(String typeName, int x, int y) {
 		barrierPiece grayCircle = new barrierGrayCircle(typeName, Color.gray, 30, 30, this);
-		point[15][5].setPiece(grayCircle, this);
+		point[x][y].setPiece(grayCircle, this);
+		return point[x][y];
 	}
 	
-	public void createHorizontalFlipper(String typeName) {
+	public Barrier createHorizontalFlipper(String typeName, int x, int y) {
 		barrierPiece horizontalFlipper = new barrierHorizontalFlipper(typeName, Color.orange, 30, 30, this);
-		point[13][8].setPiece(horizontalFlipper, this);
+		point[x][y].setPiece(horizontalFlipper, this);
+		return point[x][y];
 	}
 	
-	public void createLeftFlipper(String typeName) {
+	public Barrier createLeftFlipper(String typeName, int x, int y) {
 		barrierPiece leftFlipper = new barrierLeftFlipper(typeName, Color.orange, 30, 30, this);
-		point[11][8].setPiece(leftFlipper, this);
+		point[x][y].setPiece(leftFlipper, this);
+		return point[x][y];
 	}
 	
-	public void createRightFlipper(String typeName) {
+	public Barrier createRightFlipper(String typeName, int x, int y) {
 		barrierPiece rightFlipper = new barrierRightFlipper(typeName, Color.orange, 30, 30, this);
-		point[9][8].setPiece(rightFlipper, this);
+		point[x][y].setPiece(rightFlipper, this);
+		return point[x][y];
 	}
 	
-	public void createYellowBall(String typeName) {
+	public Barrier createYellowBall(String typeName, int x, int y) {
 		barrierPiece yellowBall = new barrierYellowBall(typeName, Color.yellow, 30, 30, this);
-		point[6][8].setPiece(yellowBall, this);
+		point[x][y].setPiece(yellowBall, this);
+		return point[x][y];
 	}
 	
-	public void createMagentaBar(String typeName) {
-		barrierPiece magentaBar1 = new barrierMagentaBar(typeName, Color.magenta, 90, 30, this);
-		point[14][12].setPiece(magentaBar1, this);
+	public Barrier createMagentaBar(String typeName, int x, int y) {
+		barrierPiece magentaBar = new barrierMagentaBar(typeName, Color.magenta, 90, 30, this);
+		point[x][y].setPiece(magentaBar, this);
+		return point[x][y];
 	}
 
 
@@ -355,13 +379,36 @@ public class GamePane extends JScrollPane implements MouseListener, MouseMotionL
 		 *            Detected Key Press Event
 		 */
 		public void keyPressed(KeyEvent e) {
-			//
+			/*
 			int keynum = e.getKeyCode();
 
 			if ((keynum >= 65) && (keynum <= 74)) {
 				System.out.println("keypress " + e.getKeyCode());
 				ball.randomBump();
-			}
+			}*/
+			/*
+			for(int i = 1; i <= x_axis; i++) {
+				for(int j = 1; j <= y_axis; j++) {
+					Barrier barrier = this.
+					if (barrier.getPiece().getName()=="horizontalFlipper") {
+						if (e.getKeyCode() == KeyEvent.VK_UP) {
+							System.out.println("\n Go Up");
+							barrier.setY(barrier.getY()-30);
+						} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+							System.out.println("\n Go Down");
+							barrier.setY(barrier.getY()+30);
+						} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+							System.out.println("\n Go Left");
+							barrier.setX(barrier.getX()-30);
+						} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+							System.out.println("\n Go Right");
+							barrier.setX(barrier.getX()+30);
+						} else
+							System.out.println(e.getKeyChar());
+						repaint();
+					}
+				}
+			}*/
 		}
 
 		/**
@@ -493,7 +540,6 @@ public class GamePane extends JScrollPane implements MouseListener, MouseMotionL
 							point[m][n].reMovePiece(pieceRemoved, this);
 							point[m][n].setPiece(piece, this);
 							(point[startI][startJ]).setHasChess(false);
-							// record.记录棋谱(piece, startI, startJ, m, n);
 							validate();
 							repaint();
 						} else {
@@ -532,4 +578,28 @@ public class GamePane extends JScrollPane implements MouseListener, MouseMotionL
 
 	public void mouseClicked(MouseEvent e) {
 	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		int keynum = e.getKeyCode();
+
+		if ((keynum >= 65) && (keynum <= 74)) {
+			System.out.println("keypress " + e.getKeyCode());
+			ball.randomBump();
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
