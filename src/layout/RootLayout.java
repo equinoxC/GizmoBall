@@ -11,13 +11,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.util.ArrayList;
 
-import javax.swing.Icon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JToolBar;
+
+import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import buttonIcon.AbsorbButtonIcon;
 import buttonIcon.BallButtonIcon;
@@ -44,6 +44,7 @@ import barrierPieceType.barrierHorizontalFlipper;
 import barrierPieceType.barrierHorizontalFlipperUp;
 import barrierPieceType.barrierLeftFlipper;
 import barrierPieceType.barrierPiece;
+import controller.IOHandler;
 import barrierPieceType.barrierRightFlipper;
 
 /**
@@ -56,6 +57,7 @@ public class RootLayout extends JFrame implements KeyListener {
 
 	private JPanel buttonPanel;
 	private GamePane gamePanel;
+	private IOHandler ioHandler = new IOHandler();
 	JButton cb_green = null;
 	JButton sb_red = null;
 	JButton tb_blue = null;
@@ -87,7 +89,7 @@ public class RootLayout extends JFrame implements KeyListener {
 	public RootLayout() {
 
 		// Title bar
-		super("Swing Demonstration Program");
+		super("GizmoBall Group 5");
 
 		// respond to the window system asking us to quit
 		addWindowListener(new WindowAdapter() {
@@ -460,8 +462,20 @@ public class RootLayout extends JFrame implements KeyListener {
 		button.setToolTipText("Save the animation to local file system");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ioHandler = new IOHandler();
-				ioHandler.saveFile();
+				JFileChooser fd = new JFileChooser();
+				FileNameExtensionFilter filter = new FileNameExtensionFilter(
+						"可扩展标记文件(*.xml;)", "xml");
+				fd.setFileFilter(filter);
+				fd.showSaveDialog(null);
+				File f = fd.getSelectedFile();
+				if(f != null){
+					ioHandler.saveFile(f);
+				}else{
+					Object[] options = {"确定"};
+					JOptionPane.showOptionDialog(null, "无法保存文件", "Error",
+							JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE,
+							null, options, options[0]);
+				}
 			}
 		});
 		toolBar.add(button);
@@ -470,6 +484,19 @@ public class RootLayout extends JFrame implements KeyListener {
 		button.setToolTipText("Load the animation from local file system");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				JFileChooser fd = new JFileChooser();
+				FileNameExtensionFilter filter = new FileNameExtensionFilter(
+						"可扩展标记文件(*.xml;)", "xml");
+				fd.setFileFilter(filter);
+				fd.showOpenDialog(null);
+				File f = fd.getSelectedFile();
+				if(f != null){
+					ioHandler.loadFile(f);
+				}else{
+					Object[] options = {"确定"};
+					JOptionPane.showOptionDialog(null, "无法打开文件", "Error",
+							JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE,
+							null, options, options[0]);
 				ioHandler = new IOHandler();
 				ArrayList<BarrierWrapper> loadBarrier = ioHandler.loadFile();
 				System.out.println(loadBarrier.size());

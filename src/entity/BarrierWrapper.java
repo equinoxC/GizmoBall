@@ -1,37 +1,22 @@
 package entity;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
+
+@XmlRootElement(name = "Barriers")
 public class BarrierWrapper {
-    public int x;
-    public int y;
-    public String name;
+    private ArrayList<BarrierSerialization> barrierList;
 
-    public BarrierWrapper(int x, int y, String name) {
-        this.x = x;
-        this.y = y;
-        this.name = name;
+    @XmlElement(name = "barrier")
+    public ArrayList<BarrierSerialization> getBarrierList(){
+        return barrierList;
     }
 
-    public int getX() {
-        return x;
+
+    public void setBarrierList(ArrayList<BarrierSerialization> barrierList){
+        this.barrierList = barrierList;
     }
 
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }

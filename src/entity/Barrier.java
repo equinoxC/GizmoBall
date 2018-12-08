@@ -3,14 +3,15 @@ package entity;
 import barrierPieceType.barrierPiece;
 import layout.GamePane;
 
+import javax.xml.bind.annotation.XmlElement;
+
 public class Barrier {
 
 	public int x, y;
 
+	public String name;
 
 	boolean hasBarrier;
-
-
 
 	barrierPiece piece = null;
 
@@ -39,7 +40,8 @@ public class Barrier {
 		return y;
 	}
 
-	// 设置该点棋子
+	public String getName(){return name;}
+
 	public void setPiece(barrierPiece piece, GamePane board) {
 		this.board = board;
 		this.piece = piece;
