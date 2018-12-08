@@ -37,6 +37,10 @@ public class barrierPiece extends JLabel {
 	public String getName() {
 		return name;
 	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public Color getColor() {
 		return foreColor;
