@@ -113,31 +113,30 @@ public class CrashHandler implements CrashInterface {
 	}
 
 	private boolean isCrashedAbsorbedBar(int ballx, int bally, int temp_x, int temp_y, int radius) {
-		
-
 		return false;
 	}
 	
 	private boolean isCrashedHorizontalFlipper(int ballx, int bally, int temp_x, int temp_y, int radius) {
-		if((ballx+radius>=temp_x)&&(bally+radius<=temp_y)&&(bally+radius>=temp_y+11)&&(bally+radius<=temp_y+19))
+		if((ballx+radius>=temp_x)&&(ballx+radius<=temp_x+30)&&(bally+radius>=temp_y+11)&&(bally+radius<=temp_y+19))
 			return true;
 		return false;
 	}
 	
 	private boolean isCrashedRightFlipper(int ballx, int bally, int temp_x, int temp_y, int radius) {
-		if((ballx+radius>=temp_x)&&(bally+radius<=temp_y)&&(bally+radius>=temp_y+11)&&(bally+radius<=temp_y+19)&&((bally<=ballx-5)||(bally>=ballx+5)))
+		if((ballx+radius>=temp_x)&&(ballx+radius<=temp_x+30)&&(bally+radius>=temp_y)&&(bally+radius<=temp_y+30)&&((bally<=ballx-5)||(bally>=ballx+5)))
 			return true;
 		return false;
 	}
 	
 	private boolean isCrashedLeftFlipper(int ballx, int bally, int temp_x, int temp_y, int radius) {
-		if((ballx+radius>=temp_x)&&(bally+radius<=temp_y)&&(bally+radius>=temp_y+11)&&(bally+radius<=temp_y+19)&&((bally<=-ballx+23)||(bally>=-ballx+33)))
+		if((ballx+radius>=temp_x)&&(ballx+radius<=temp_x+30)&&(bally+radius>=temp_y)&&(bally+radius<=temp_y+30)&&((bally<=-ballx+23)||(bally>=-ballx+33))
+        )
 			return true;
 		return false;
 	}
 	
 	private boolean isCrashedHorizontalFlipperUp(int ballx, int bally, int temp_x, int temp_y, int radius) {
-		if((ballx+radius>=temp_x)&&(bally+radius<=temp_y)&&(bally+radius>=temp_y+1)&&(bally+radius<=temp_y+9))
+		if((ballx+radius>=temp_x)&&(ballx+radius<=temp_x+30)&&(bally+radius>=temp_y)&&(bally+radius<=temp_y+20))
 			return true;
 		return false;
 	}
@@ -149,10 +148,10 @@ public class CrashHandler implements CrashInterface {
 		int radius = ball.getRadius();
 		GamePane win = ball.getWin();
 		if (x != 0 && y != 0 && win.getPoint(x, y).isPiece()) {
-			int cell_x = win.getPoint(x, y).getX();
-			int cell_y = win.getPoint(x, y).getY();
-			int ball_x = x + radius;
-			int ball_y = y + radius;
+			int cell_x = win.getPoint(x, y).getX() ;
+			int cell_y = win.getPoint(x, y).getY() ;
+			int ball_x = x*30 + radius;
+			int ball_y = y*30 + radius;
 			if (win.getPoint(x, y).getPiece().getName() == "redRectangular")
 				return "redRectangular";
 			else if ((win.getPoint(x, y).getPiece().getName() == "blueTriangle"
@@ -180,8 +179,8 @@ public class CrashHandler implements CrashInterface {
 			} else if ((win.getPoint(x, y).getPiece().getName() == "rightFlipper")
 					&& isCrashedRightFlipper(ball_x, ball_y, cell_x, cell_y, radius)) {
 				return win.getPoint(x, y).getPiece().getName();
-			} else if ((win.getPoint(x, y).getPiece().getName() == "horizontalFlipperUpRight")
-					|| (win.getPoint(x, y).getPiece().getName() == "horizontalFlipperUpLeft")
+			} else if ((win.getPoint(x, y).getPiece().getName().equals("horizontalFlipperUpRight")
+					|| win.getPoint(x, y).getPiece().getName().equals("horizontalFlipperUpLeft"))
 					&& isCrashedHorizontalFlipperUp(ball_x, ball_y, cell_x, cell_y, radius)) {
 				return win.getPoint(x, y).getPiece().getName();
 			} else if ((win.getPoint(x, y).getPiece().getName() == "magentaBar")
@@ -192,44 +191,213 @@ public class CrashHandler implements CrashInterface {
 		return null;
 	}
 
-	@Override
-	public void handleCrashed(String barrierName) {
-		// ball.setVx(ball.getVx()*-1);
-		// ball.setVy(ball.getVy()*-1);
-		if (barrierName == "redRectangular") {
+    @Override
+    public void handleCrashed(String barrierName) {
+        int x = ball.getX()*30,y = ball.getY()*30;
+        int vx = ball.getVx(), vy = ball.getVy();
+        GamePane win = ball.getWin();
+        int cir_x = win.getPoint(x/30,y/30).getX() + 15;
+        int cir_y = win.getPoint(x/30,y/30).getY() + 15;
+        float k =  (float)vy/vx;
 
-		} else if (barrierName == "blueTriangle") {
 
-		} else if (barrierName == "blueTriangle2") {
+        if(barrierName == "redRectangular"){
+            if(k < 0) {
+                if((y - k * x) * (k * cir_x + y - k * x - cir_y) >= 0) {
+                    if(vx>0)
+                        ball.setVy(vy*-1);
 
-		} else if (barrierName == "blueTriangle3") {
+                    else
+                        ball.setVx(vx*-1);
+                }
+                else if((y - k * x) * (k * cir_x + y - k * x - cir_y) <= 0){
+                    if(vx>0)
+                        ball.setVx(vx*-1);
+                    else
+                        ball.setVy(vy*-1);
+                }
+            }
+            else {
+                if((k * (cir_x+15) + y - k * x - cir_y + 15) * (k * cir_x + y - k * x - cir_y) <= 0) {
+                    if(vx>0)
+                        ball.setVy(vy*-1);
+                    else
+                        ball.setVx(vx*-1);
+                }
+                else if((k * (cir_x+15) + y - k * x - cir_y + 15) * (k * cir_x + y - k * x - cir_y) >= 0) {
+                    if(vx>0)
+                        ball.setVx(vx*-1);
+                    else
+                        ball.setVy(vy*-1);
+                }
+            }
+        }else if(barrierName == "blueTriangle"){
+            if(vx<0 && vy<0) {
+                ball.setVx(vx*-1);
+                ball.setVy(vy*-1);
+            }
+            else {
+                if(k < 0) {
+                    if((y - k * x) * (k * cir_x + y - k * x - cir_y) >= 0) {
+                        if(vx>0)
+                            ball.setVy(vy*-1);
 
-		} else if (barrierName == "blueTriangle4") {
+                        else
+                            ball.setVx(vx*-1);
+                    }
+                    else if((y - k * x) * (k * cir_x + y - k * x - cir_y) <= 0){
+                        if(vx>0)
+                            ball.setVx(vx*-1);
+                        else
+                            ball.setVy(vy*-1);
+                    }
+                }
+                else {
+                    if((k * (cir_x+15) + y - k * x - cir_y + 15) * (k * cir_x + y - k * x - cir_y) <= 0) {
+                        if(vx>0)
+                            ball.setVy(vy*-1);
+                        else
+                            ball.setVx(vx*-1);
+                    }
+                    else if((k * (cir_x+15) + y - k * x - cir_y + 15) * (k * cir_x + y - k * x - cir_y) >= 0) {
+                        if(vx>0)
+                            ball.setVx(vx*-1);
+                        else
+                            ball.setVy(vy*-1);
+                    }
+                }
+            }
 
-		} else if (barrierName == "cyanCircle") {
+        }else if(barrierName == "blueTriangle2"){
+            if(vx>0 && vy<0) {
+                ball.setVx(vx*-1);
+                ball.setVy(vy*-1);
+            }
+            else {
+                if(k < 0) {
+                    if((y - k * x) * (k * cir_x + y - k * x - cir_y) >= 0) {
+                        if(vx>0)
+                            ball.setVy(vy*-1);
 
-		} else if (barrierName == "blackCircle") {
+                        else
+                            ball.setVx(vx*-1);
+                    }
+                    else if((y - k * x) * (k * cir_x + y - k * x - cir_y) <= 0){
+                        if(vx>0)
+                            ball.setVx(vx*-1);
+                        else
+                            ball.setVy(vy*-1);
+                    }
+                }
+                else {
+                    if((k * (cir_x+15) + y - k * x - cir_y + 15) * (k * cir_x + y - k * x - cir_y) <= 0) {
+                        if(vx>0)
+                            ball.setVy(vy*-1);
+                        else
+                            ball.setVx(vx*-1);
+                    }
+                    else if((k * (cir_x+15) + y - k * x - cir_y + 15) * (k * cir_x + y - k * x - cir_y) >= 0) {
+                        if(vx>0)
+                            ball.setVx(vx*-1);
+                        else
+                            ball.setVy(vy*-1);
+                    }
+                }
+            }
 
-		} else if (barrierName == "pinkCircle") {
+        }else if(barrierName == "blueTriangle3"){
+            if(vx>0 && vy>0) {
+                ball.setVx(vx*-1);
+                ball.setVy(vy*-1);
+            }
+            else {
+                if(k < 0) {
+                    if((y - k * x) * (k * cir_x + y - k * x - cir_y) >= 0) {
+                        if(vx>0)
+                            ball.setVy(vy*-1);
 
-		} else if (barrierName == "grayCircle") {
+                        else
+                            ball.setVx(vx*-1);
+                    }
+                    else if((y - k * x) * (k * cir_x + y - k * x - cir_y) <= 0){
+                        if(vx>0)
+                            ball.setVx(vx*-1);
+                        else
+                            ball.setVy(vy*-1);
+                    }
+                }
+                else {
+                    if((k * (cir_x+15) + y - k * x - cir_y + 15) * (k * cir_x + y - k * x - cir_y) <= 0) {
+                        if(vx>0)
+                            ball.setVy(vy*-1);
+                        else
+                            ball.setVx(vx*-1);
+                    }
+                    else if((k * (cir_x+15) + y - k * x - cir_y + 15) * (k * cir_x + y - k * x - cir_y) >= 0) {
+                        if(vx>0)
+                            ball.setVx(vx*-1);
+                        else
+                            ball.setVy(vy*-1);
+                    }
+                }
+            }
 
-		} else if (barrierName == "greenCircle") {
+        }else if(barrierName == "blueTriangle4"){
+            if(vx<0 && vy>0) {
+                ball.setVx(vx*-1);
+                ball.setVy(vy*-1);
+            }
+            else {
+                if(k < 0) {
+                    if((y - k * x) * (k * cir_x + y - k * x - cir_y) >= 0) {
+                        if(vx>0)
+                            ball.setVy(vy*-1);
 
-		} else if (barrierName == "magentaBar") {
+                        else
+                            ball.setVx(vx*-1);
+                    }
+                    else if((y - k * x) * (k * cir_x + y - k * x - cir_y) <= 0){
+                        if(vx>0)
+                            ball.setVx(vx*-1);
+                        else
+                            ball.setVy(vy*-1);
+                    }
+                }
+                else {
+                    if((k * (cir_x+15) + y - k * x - cir_y + 15) * (k * cir_x + y - k * x - cir_y) <= 0) {
+                        if(vx>0)
+                            ball.setVy(vy*-1);
+                        else
+                            ball.setVx(vx*-1);
+                    }
+                    else if((k * (cir_x+15) + y - k * x - cir_y + 15) * (k * cir_x + y - k * x - cir_y) >= 0) {
+                        if(vx>0)
+                            ball.setVx(vx*-1);
+                        else
+                            ball.setVy(vy*-1);
+                    }
+                }
+            }
 
-		} else if (barrierName == "horizontalFlipper") {
+        }else if(barrierName == "cyanCircle"){
+            ball.setVx(vx);
+            ball.setVy(vy*-1);
+        }else if(barrierName == "blackCircle"){
+            ball.setVx(vx*-1);
+            ball.setVy(vy);
+        }else if(barrierName == "pinkCircle"){
+            ball.setVx(vx);
+            ball.setVy(vy*-1);
+        }else if(barrierName == "grayCircle"){
+            ball.setVx(vx*-1);
+            ball.setVy(vy);
+        }else if(barrierName == "greenCircle"){
+            ball.setVx(vx*-1);
+            ball.setVy(vy*-1);
+        }else{
+            ball.setVx(ball.getVx()*-1);
+            ball.setVy(ball.getVy()*-1);
+        }
+    }
 
-		} else if (barrierName == "leftFlipper") {
-
-		} else if (barrierName == "rightFlipper") {
-
-		} else if (barrierName == "horizontalFlipperUpRight") {
-
-		} else if (barrierName == "horizontalFlipperUpLeft") {
-
-		} else {
-			System.out.println("cannot find the barrier");
-		}
-	}
 }

@@ -10,7 +10,7 @@ import layout.GamePane;
 
 public class BouncingBall {
 
-	private final static double VELOCITY_STEP = 1.0;
+	private final static double VELOCITY_STEP = 2.0;
 
 	private int x = (int) ((Math.random() * 100.0) + 100.0);
 
@@ -81,6 +81,7 @@ public class BouncingBall {
 		}
 		
 		String barrier = crashHandler.isCrashed();
+		if(barrier!=null)System.out.println("crashed"+barrier);
 		if(barrier!=null) crashHandler.handleCrashed(barrier);
 		
 	}

@@ -54,6 +54,10 @@ public class Barrier {
 		board.validate();
 	}
 
+    public void setPiece(barrierPiece piece) {
+        this.piece = piece;
+    }
+
 	public barrierPiece getPiece() {
 		return piece;
 	}

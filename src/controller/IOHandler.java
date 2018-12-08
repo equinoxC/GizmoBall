@@ -48,11 +48,6 @@ public class IOHandler implements IOInterface {
             Unmarshaller um = context.createUnmarshaller();
             BarrierWrapper barrierWrapper = (BarrierWrapper) um.unmarshal(file);
             barriers = barrierWrapper.getBarrierList();
-            for(BarrierSerialization barrierSerialization : barriers){
-                System.out.println(barrierSerialization.getX());
-                System.out.println(barrierSerialization.getY());
-                System.out.println(barrierSerialization.getBarrierName());
-            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
             Object[] options = {"确定"};

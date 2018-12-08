@@ -35,6 +35,7 @@ import buttonIcon.SquareButtonIcon;
 import buttonIcon.TriangleButtonIcon;
 import controller.IOHandler;
 import entity.Barrier;
+import entity.BarrierSerialization;
 import entity.BarrierWrapper;
 import barrierPieceType.barrierBlueTriangle;
 import barrierPieceType.barrierBlueTriangle2;
@@ -54,7 +55,7 @@ import barrierPieceType.barrierRightFlipper;
 public class RootLayout extends JFrame implements KeyListener {
 
 	private static final long serialVersionUID = 3257563992905298229L;
-
+    ArrayList<BarrierSerialization> barriers;
 	private JPanel buttonPanel;
 	private GamePane gamePanel;
 	private IOHandler ioHandler = new IOHandler();
@@ -78,7 +79,6 @@ public class RootLayout extends JFrame implements KeyListener {
 	JButton drg = null;
 
 	Barrier barrier = null;
-	IOHandler ioHandler = null;
 
 	int type = 0;
 
@@ -485,53 +485,51 @@ public class RootLayout extends JFrame implements KeyListener {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fd = new JFileChooser();
-				FileNameExtensionFilter filter = new FileNameExtensionFilter(
-						"可扩展标记文件(*.xml;)", "xml");
-				fd.setFileFilter(filter);
 				fd.showOpenDialog(null);
 				File f = fd.getSelectedFile();
 				if(f != null){
-					ioHandler.loadFile(f);
-				}else{
+					barriers = ioHandler.loadFile(f);
+				}else {
 					Object[] options = {"确定"};
 					JOptionPane.showOptionDialog(null, "无法打开文件", "Error",
 							JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE,
 							null, options, options[0]);
-				ioHandler = new IOHandler();
-				ArrayList<BarrierWrapper> loadBarrier = ioHandler.loadFile();
-				System.out.println(loadBarrier.size());
-				for (BarrierWrapper barrierWrapper : loadBarrier) {
-					System.out.println(barrierWrapper.getName());
-					if (barrierWrapper.getName() == "greenCircle") {
+				}
+				for (BarrierSerialization barrierWrapper : barriers) {
+					System.out.println(barrierWrapper.getBarrierName());
+					System.out.println(barrierWrapper.getX());
+                    System.out.println(barrierWrapper.getY());
+					if (barrierWrapper.getBarrierName().equals("greenCircle")) {
+					    System.out.println("get!!!");
 						gamePanel.createGreenCircle("greenCircle", barrierWrapper.getX(), barrierWrapper.getY());
-					} else if (barrierWrapper.getName() == "redRectangular") {
+					} else if (barrierWrapper.getBarrierName().equals("redRectangular")) {
 						gamePanel.createRedRectangular("redRectangular", barrierWrapper.getX(), barrierWrapper.getY());
-					} else if (barrierWrapper.getName() == "blueTriangle") {
+					} else if (barrierWrapper.getBarrierName().equals("blueTriangle")) {
 						gamePanel.createBlueTriangle("blueTriangle", barrierWrapper.getX(), barrierWrapper.getY());
-					} else if (barrierWrapper.getName() == "blueTriangle2") {
+					} else if (barrierWrapper.getBarrierName().equals("blueTriangle2")) {
 						gamePanel.createBlueTriangle2("blueTriangle2", barrierWrapper.getX(), barrierWrapper.getY());
-					} else if (barrierWrapper.getName() == "blueTriangle3") {
+					} else if (barrierWrapper.getBarrierName().equals("blueTriangle3")) {
 						gamePanel.createBlueTriangle3("blueTriangle3", barrierWrapper.getX(), barrierWrapper.getY());
-					} else if (barrierWrapper.getName() == "blueTriangle4") {
+					} else if (barrierWrapper.getBarrierName().equals("blueTriangle4")) {
 						gamePanel.createBlueTriangle4("blueTriangle4", barrierWrapper.getX(), barrierWrapper.getY());
-					} else if (barrierWrapper.getName() == "cyanCircle") {
+					} else if (barrierWrapper.getBarrierName().equals("cyanCircle")) {
 						gamePanel.createCyanCircle("cyanCircle", barrierWrapper.getX(), barrierWrapper.getY());
-					} else if (barrierWrapper.getName() == "pinkCircle") {
+					} else if (barrierWrapper.getBarrierName().equals("pinkCircle")) {
 						gamePanel.createPinkCircle("pinkCircle", barrierWrapper.getX(), barrierWrapper.getY());
-					} else if (barrierWrapper.getName() == "blackCircle") {
+					} else if (barrierWrapper.getBarrierName().equals( "blackCircle")) {
 						gamePanel.createBlackCircle("blackCircle", barrierWrapper.getX(), barrierWrapper.getY());
-					} else if (barrierWrapper.getName() == "grayCircle") {
+					} else if (barrierWrapper.getBarrierName().equals("grayCircle")) {
 						gamePanel.createGrayCircle("grayCircle", barrierWrapper.getX(), barrierWrapper.getY());
-					} else if (barrierWrapper.getName() == "horizontalFlipper") {
+					} else if (barrierWrapper.getBarrierName().equals("horizontalFlipper")) {
 						gamePanel.createHorizontalFlipper("horizontalFlipper", barrierWrapper.getX(),
 								barrierWrapper.getY());
-					} else if (barrierWrapper.getName() == "rightFlipper") {
+					} else if (barrierWrapper.getBarrierName().equals("rightFlipper")) {
 						gamePanel.createRightFlipper("rightFlipper", barrierWrapper.getX(), barrierWrapper.getY());
-					} else if (barrierWrapper.getName() == "leftFlipper") {
+					} else if (barrierWrapper.getBarrierName().equals("leftFlipper")) {
 						gamePanel.createLeftFlipper("leftFlipper", barrierWrapper.getX(), barrierWrapper.getY());
-					} else if (barrierWrapper.getName() == "yellowBall") {
+					} else if (barrierWrapper.getBarrierName().equals("yellowBall")) {
 						gamePanel.createYellowBall("yellowBall", barrierWrapper.getX(), barrierWrapper.getY());
-					} else if (barrierWrapper.getName() == "magentaBar") {
+					} else if (barrierWrapper.getBarrierName().equals("magentaBar")) {
 						gamePanel.createMagentaBar("magentaBar", barrierWrapper.getX(), barrierWrapper.getY());
 					}
 				}
@@ -572,13 +570,13 @@ public class RootLayout extends JFrame implements KeyListener {
 			if (flag == 1) {
 				x = i;
 				y = j;
-				System.out.println("x=" + x);
-				System.out.println("y=" + y);
 				barrierPiece pieceRemoved = gamePanel.getPoint(x, y).getPiece();
 				gamePanel.getPoint(x, y).reMovePiece(pieceRemoved, gamePanel);
 				barrierPiece temp = new barrierHorizontalFlipperUp("horizontalFlipperUpRight", Color.orange, 30, 30, gamePanel);
+
 				barrier2.setPiece(temp);
 				gamePanel.getPoint(x, y).setPiece(temp, gamePanel);
+                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!"+gamePanel.getPoint(x,y).getPiece().getName()+"!!!!!!!!!!!!!!!");
 				validate();
 				repaint();
 			}
